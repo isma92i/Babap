@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="map-controls">
+                <div class="route-planner">
+                    <h3>Route Planner</h3>
+                    <div class="route-inputs">
+                        <div class="location-input">
+                            <input type="text" id="startLocation" placeholder="Starting point">
+                            <button class="location-picker" data-for="start">📍</button>
+                        </div>
+                        <div class="location-input">
+                            <input type="text" id="endLocation" placeholder="Destination">
+                            <button class="location-picker" data-for="end">📍</button>
+                        </div>
+                    </div>
+                    <div class="transport-modes">
+                        <button class="transport-btn" data-mode="driving-traffic">🚗</button>
+                        <button class="transport-btn" data-mode="walking">🚶</button>
+                        <button class="transport-btn" data-mode="cycling">🚲</button>
+                    </div>
+                    <div class="route-info"></div>
+                </div>
+                <div class="weather-controls">
+                    <h3>Weather Layers</h3>
+                    <div class="weather-buttons">
+                        <button id="temperatureBtn" class="weather-btn">Temperature</button>
+                        <button id="windBtn" class="weather-btn">Wind</button>
+                        <button id="cloudsBtn" class="weather-btn">Clouds</button>
+                        <button id="precipitationBtn" class="weather-btn">Precipitation</button>
+                    </div>
+                    <div class="date-selector">
+                        <input type="date" id="weatherDate" class="weather-date-input">
+                    </div>
+                </div>
+            </div>
+            <div id="weatherInfo" class="weather-info"></div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be dynamically inserted here -->
+            </div>
+            <div class="chat-input-container">
+                <textarea id="chatInput" placeholder="Ask about your travel plans..."></textarea>
+                <button id="sendMessage">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <script src="scripts/carousel.js"></script>
+    <script src="scripts/mapbox-integration.js"></script>
+    <script src="scripts/chat.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

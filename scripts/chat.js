@@ -3,6 +3,13 @@ class ChatInterface {
         this.messagesContainer = document.getElementById('chatMessages');
         this.chatInput = document.getElementById('chatInput');
         this.sendButton = document.getElementById('sendMessage');
+        this.destinationCoordinates = {
+            'paris': [2.3522, 48.8566],
+            'london': [-0.1276, 51.5074],
+            'djanet': [9.4840, 24.5534],
+            'kota kinabalu': [116.0735, 5.9804],
+            'surabaya': [112.7508, -7.2575]
+        };
         this.messageHistory = [{
             role: 'system',
             content: `You are a knowledgeable and enthusiastic travel assistant. Your expertise includes:
@@ -60,11 +67,18 @@ class ChatInterface {
         // Convert message to lowercase for matching
         const messageLower = userMessage.toLowerCase();
         
-        // Check for destination mentions
-        for (const [destination, response] of Object.entries(destinations)) {
+        // Check for destination mentions and handle map navigation
+        for (const destination of Object.keys(this.destinationCoordinates)) {
             if (messageLower.includes(destination)) {
-                // If the message mentions a destination, use the prepared response
-                return response;
+                // If the message mentions a destination, fly to it on the map
+                if (window.mapInterface?.handleLocationSelect) {
+                    window.mapInterface.handleLocationSelect({
+                        name: destination.charAt(0).toUpperCase() + destination.slice(1),
+                        coordinates: this.destinationCoordinates[destination],
+                        description: destinations[destination]
+                    });
+                }
+                return destinations[destination];
             }
         }
 
@@ -76,7 +90,7 @@ class ChatInterface {
         } else if (messageLower.includes('food') || messageLower.includes('eat')) {
             return "Each destination offers unique culinary experiences. I recommend trying local specialties and street food, but also make sure to check reviews and food safety ratings.";
         } else {
-            return "I'd be happy to help you plan your trip! Feel free to ask about specific destinations, attractions, or travel tips. You can also explore our interactive map to discover exciting locations.";
+            return processMessage(messageLower);
         }
     }
 
@@ -102,37 +116,37 @@ class ChatInterface {
             // Generate and add AI response
             const aiResponse = this.generateResponse(message);
             this.addMessage(aiResponse);
-
-            // Add AI response to history
-            this.messageHistory.push({
-                role: 'assistant',
-                content: aiResponse
-            });
-
-            // Keep history at a reasonable size (last 10 messages)
-            if (this.messageHistory.length > 11) {
-                this.messageHistory = [
-                    this.messageHistory[0],
-                    ...this.messageHistory.slice(-10)
-                ];
-            }
-
-            // Check if the message contains a location and fly to it on the map
-            const locations = ['paris', 'london', 'djanet', 'kota kinabalu', 'surabaya'];
-            const messageLower = message.toLowerCase();
-            for (const location of locations) {
-                if (messageLower.includes(location)) {
-                    // Capitalize first letter of each word
-                    const formattedLocation = location
-                        .split(' ')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                        .join(' ');
-                    window.mapInterface?.flyToLocation(formattedLocation);
-                    break;
-                }
-            }
         }, 1000);
     }
+}
+
+function processMessage(message) {
+    message = message.toLowerCase();
+    let response = '';
+
+    // Check for clear route command
+    if (message.includes('clear route') || message.includes('remove route')) {
+        window.mapInterface.clearRoute();
+        return "I've cleared the current route from the map.";
+    }
+
+    // Check for location mentions
+    const locationMatch = message.match(/(?:show|find|where is|go to|fly to) (.+)/i);
+    if (locationMatch) {
+        const locationName = locationMatch[1];
+        window.mapInterface.flyToLocation(locationName);
+        return `Flying to ${locationName}...`;
+    }
+
+    // Default response
+    return "I can help you with:\n" +
+           "- Finding locations (e.g., 'show [location]')\n" +
+           "- Clearing routes (e.g., 'clear route')\n" +
+           "- Weather information (click anywhere on the map)\n" +
+           "\nTo plan a route:\n" +
+           "1. Type your starting point in the search bar\n" +
+           "2. Click 'Set as Destination' on any featured location\n" +
+           "3. Choose your preferred mode of transport";
 }
 
 // Initialize chat interface

@@ -469,13 +469,13 @@ body {
 }
 
 #weather-details {
-    color: var(--text-secondary);
+    color: black; /* Set the text color inside Weather Information to black */
     font-size: 0.9em;
     line-height: 1.5;
 }
 
 .weather-info-container {
-    color: var(--text-primary);
+    color: black; /* Set the text color inside Weather Information to black */
     font-size: 0.85em;
 }
 
@@ -501,12 +501,12 @@ body {
 }
 
 .weather-detail .label {
-    color: var(--text-secondary);
+    color: black; /* Set labels in weather details to black */
     font-weight: bold;
 }
 
 .weather-detail .value {
-    color: var(--text-primary);
+    color: black; /* Set values in weather details to black */
     font-weight: normal;
 }
 
@@ -562,7 +562,7 @@ body {
 }
 
 .weather-info-container {
-    color: var(--text-primary);
+    color: black; /* Set the text color inside Weather Information to black */
 }
 
 .weather-header {
@@ -607,11 +607,11 @@ body {
 }
 
 .weather-detail .label {
-    color: var(--text-secondary);
+    color: black; /* Set labels in weather details to black */
 }
 
 .weather-detail .value {
-    color: var(--text-primary);
+    color: black; /* Set values in weather details to black */
     font-weight: 500;
 }
 
@@ -683,7 +683,7 @@ body {
 
 /* Weather Info in Collapsible */
 .weather-info-container {
-    color: var(--text-primary);
+    color: black; /* Set the text color inside Weather Information to black */
 }
 
 .weather-header {
@@ -728,11 +728,11 @@ body {
 }
 
 .weather-detail .label {
-    color: var(--text-secondary);
+    color: black; /* Set labels in weather details to black */
 }
 
 .weather-detail .value {
-    color: var(--text-primary);
+    color: black; /* Set values in weather details to black */
     font-weight: 500;
 }
 
@@ -837,5 +837,50 @@ body {
 
     .weather-buttons {
         grid-template-columns: 1fr;
+    }
+    
+    /* Adjust map container */
+    #map {
+        height: 50vh; /* Reduce height for smaller screens */
+    }
+    
+    /* Weather Info Panel */
+    #weather-info {
+        width: 100%; /* Full width on mobile */
+        bottom: 0; /* Stick to bottom */
+        right: 0;
+    }
+    
+    /* Weather Controls */
+    .weather-controls {
+        width: 100%; /* Full width on mobile */
+        bottom: 10px;
+        left: 10px;
+    }
+    
+    /* Adjust buttons for mobile */
+    .buttons-container {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 5px;
+    }
+    
+    .route-button,
+    .book-button {
+        width: 100%; /* Full width buttons */
+    }
+    
+    /* Popup adjustments */
+    .popup-container {
+        max-width: 90%; /* Full width on mobile */
+    }
+    
+    /* Adjust font sizes for readability */
+    .location-info h3,
+    .weather-header span {
+        font-size: 1em; /* Slightly smaller font size */
+    }
+    
+    .weather-detail {
+        font-size: 0.9em; /* Smaller font size for details */
     }
 }
